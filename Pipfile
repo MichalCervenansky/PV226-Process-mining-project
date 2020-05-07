@@ -9,7 +9,7 @@ pylint = "*"
 [packages]
 jira = "*"
 pm4py = "*"
-xes = "*"
+xes = {editable = true,git = "https://github.com/spriadka/xes.git",ref = "python3"}
 
 [requires]
 python_version = "3.7"
