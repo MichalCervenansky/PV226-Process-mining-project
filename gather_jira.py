@@ -29,9 +29,9 @@ def write_xes(basename, dir, issues):
             event = xes.Event()
             event.add_attribute(xes.Attribute(type="string", key="org:resource", value=transition["who"]))
             event.add_attribute(xes.Attribute(type="date", key="time:timestamp", value=transition["when"]))
-            if (transition["what"]["field"] == "status"):
+            if transition["what"]["field"] == "status":
                 eventValue = transition["what"]["toString"]
-            elif (transition["what"]["field"] == "description"):
+            elif transition["what"]["field"] == "description":
                 eventValue = "Change Description"
             else:
                 eventValue = "Change Field: {field}".format(field=transition["what"]["field"])
@@ -77,9 +77,13 @@ def getTransitions(issue):
     return transitions
 
 
-jira = JIRA(server="https://issues.redhat.com")
+if len(sys.argv) < 3:
+    raise ValueError('Jira server aj Jira query were not specified')
+print('Gathering issues from ' + sys.argv[1] + ' returned by Jira query: ' + sys.argv[2])
 
-issues = jira.search_issues('project=WFLY AND type="Feature Request"', maxResults=-1, expand="changelog")
+jira = JIRA(server=sys.argv[1])
+
+issues = jira.search_issues(sys.argv[2], maxResults=-1, expand="changelog")
 
 transformedIssues = []
 
@@ -92,4 +96,7 @@ for issue in issues:
     }
     transformedIssues.append(transformedIssue)
 
-write_xes('wildfly-feature-requests', '.', transformedIssues)
+outputFileName = "output"
+if len(sys.argv) > 3:
+    outputFileName = sys.argv[3]
+write_xes(outputFileName, '.', transformedIssues)
