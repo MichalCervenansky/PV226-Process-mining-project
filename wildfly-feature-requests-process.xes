@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!--Created by Python XES https://pypi.python.org/pypi/xes-->
 <!--(c) Jonathan Sumrall - http://www.sumrall.nl-->
-<log xes.creator="Python XES v1.2" xes.version="1.0" xmlns="http://www.xes-standard.org">
+<log xmlns="http://www.xes-standard.org" xes.version="1.0" xes.creator="Python XES v1.2" xes.features="">
   <extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext"/>
   <extension name="Lifecycle" prefix="lifecycle" uri="http://www.xes-standard.org/lifecycle.xesext"/>
   <extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext"/>
@@ -15,9 +15,9 @@
     <string key="org:resource" value="string"/>
     <date key="time:timestamp" value="string"/>
   </global>
-  <classifier keys="concept:name lifecycle:transition" name="MXML Legacy Classifier"/>
-  <classifier keys="concept:name" name="Event Name"/>
-  <classifier keys="org:resource" name="Resource"/>
+  <classifier name="MXML Legacy Classifier" keys="concept:name lifecycle:transition"/>
+  <classifier name="Event Name" keys="concept:name"/>
+  <classifier name="Resource" keys="org:resource"/>
   <string key="creator" value="Python XES v1.2"/>
   <trace>
     <string key="concept:name" value="WFLY-13412"/>
@@ -2070,6 +2070,11 @@
       <date key="time:timestamp" value="2020-01-04T16:01:30.000-0500"/>
       <string key="concept:name" value="Change Field: priority"/>
     </event>
+    <event>
+      <string key="org:resource" value=""/>
+      <date key="time:timestamp" value="2020-05-09T14:26:34.000-0400"/>
+      <string key="concept:name" value="Pull Request Sent"/>
+    </event>
   </trace>
   <trace>
     <string key="concept:name" value="WFLY-12825"/>
@@ -2324,6 +2329,11 @@
       <string key="org:resource" value="Ronald Sigal"/>
       <date key="time:timestamp" value="2020-04-18T15:52:44.000-0400"/>
       <string key="concept:name" value="Change Description"/>
+    </event>
+    <event>
+      <string key="org:resource" value="Ronald Sigal"/>
+      <date key="time:timestamp" value="2020-05-08T12:29:04.000-0400"/>
+      <string key="concept:name" value="Change Field: Link"/>
     </event>
   </trace>
   <trace>
