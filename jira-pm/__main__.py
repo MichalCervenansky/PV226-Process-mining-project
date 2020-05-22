@@ -3,16 +3,24 @@ from jira import JIRA
 import codecs
 import os
 import sys
+import xes
+import datetime
+import dateutil.parser
+import pytz
+
+def convertToValidTimeStamp(isoTimestamp):
+    return dateutil.parser.isoparse(isoTimestamp).isoformat(sep="T")
+
+
 
 def write_xes(basename, dir, issues):
-
-    import xes
-
     output = codecs.open(os.path.join(dir, basename + '-process.xes'), 'w', encoding='utf-8')
-    log = xes.Log()
+    log = xes.Log(features = [])
+    log.infer_global_attributes = False
     log.global_event_attributes = [
         xes.Attribute(type = "string", key = "concept:name", value = "__INVALID__"),
-        xes.Attribute(type = "string", key = "lifecycle:transition", value = "complete")
+        xes.Attribute(type = "string", key = "lifecycle:transition", value = "string"),
+        xes.Attribute(type = "string", key = "org:resource", value = "string")
     ]
     log.global_trace_attributes = [
         xes.Attribute(type = "string", key = "concept:name", value = "__INVALID__")
@@ -22,13 +30,23 @@ def write_xes(basename, dir, issues):
         trace.add_attribute(xes.Attribute(type = "string", key = "concept:name", value = issue["key"]))
         createdEvent = xes.Event()
         createdEvent.add_attribute(xes.Attribute(type = "string", key="org:resource", value = issue["author"]))
-        createdEvent.add_attribute(xes.Attribute(type = "date", key = "time:timestamp", value = issue["created"]))
+        createdEvent.add_attribute(xes.Attribute(
+            type = "date",
+            key = "time:timestamp",
+            value = convertToValidTimeStamp(issue["created"])
+        ))
         createdEvent.add_attribute(xes.Attribute(type = "string", key = "concept:name", value = "Open"))
+        createdEvent.add_attribute(xes.Attribute(type = "string", key = "lifecycle:transition", value = "complete"))
         trace.add_event(createdEvent)
         for transition in issue['transitions']:
             event = xes.Event()
+            event.add_attribute(xes.Attribute(type = "string", key = "lifecycle:transition", value = "complete"))
             event.add_attribute(xes.Attribute(type = "string", key="org:resource", value = transition["who"]))
-            event.add_attribute(xes.Attribute(type = "date", key = "time:timestamp", value = transition["when"]))
+            event.add_attribute(xes.Attribute(
+                type = "date",
+                key = "time:timestamp",
+                value = convertToValidTimeStamp(transition["when"])
+            ))
             if (transition["what"]["field"] == "status"):
                 eventValue = transition["what"]["toString"]
             elif (transition["what"]["field"] == "description"):
@@ -72,19 +90,20 @@ def getTransitions(issue):
             transitions.append(transition)
     return transitions
 
-jira = JIRA(server="https://issues.redhat.com")
+if __name__ == "__main__":
+    jira = JIRA(server="https://issues.redhat.com")
 
-issues = jira.search_issues('project=WFLY AND type="Feature Request"', maxResults=-1, expand="changelog")
+    issues = jira.search_issues('project=WFLY AND type="Feature Request"', maxResults=-1, expand="changelog")
 
-transformedIssues = []
+    transformedIssues = []
 
-for issue in issues:
-    transformedIssue = {
-        'key' : issue.key,
-        'created' : issue.fields.created,
-        'author' : transformIssueAuthor(issue),
-        'transitions' : getTransitions(issue)
-    }
-    transformedIssues.append(transformedIssue)
+    for issue in issues:
+        transformedIssue = {
+            'key' : issue.key,
+            'created' : issue.fields.created,
+            'author' : transformIssueAuthor(issue),
+            'transitions' : getTransitions(issue)
+        }
+        transformedIssues.append(transformedIssue)
 
-write_xes('wildfly-feature-requests', '.', transformedIssues)
+    write_xes('wildfly-feature-requests', '.', transformedIssues)
