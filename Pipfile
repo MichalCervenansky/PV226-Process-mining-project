@@ -10,6 +10,7 @@ pylint = "*"
 jira = "*"
 pm4py = "*"
 xes = {editable = true,git = "https://github.com/spriadka/xes.git",ref = "python3"}
+python-dateutil = "*"
 
 [requires]
 python_version = "3.8"
