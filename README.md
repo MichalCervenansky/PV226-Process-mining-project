@@ -10,4 +10,4 @@ Goal of this project is to develop script, that enables gathering Jira issues se
 
 ### Usage:
 * Run gather_jira.py with specified server, Jira query and optional output file name e.g.  
-`python gather_jira.py https://issues.redhat.com 'project=WFLY AND type="Feature Request"' wildfly-feature-requests`
+`python jira-pm/__main__.py https://issues.redhat.com 'project=WFLY AND type="Feature Request"' wildfly-feature-requests`
