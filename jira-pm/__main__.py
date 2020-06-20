@@ -91,9 +91,13 @@ def getTransitions(issue):
     return transitions
 
 if __name__ == "__main__":
-    jira = JIRA(server="https://issues.redhat.com")
+    if len(sys.argv) < 3:
+        raise ValueError('Jira server aj Jira query were not specified')
+    print('Gathering issues from ' + sys.argv[1] + ' returned by Jira query: ' + sys.argv[2])
 
-    issues = jira.search_issues('project=WFLY AND type="Feature Request"', maxResults=-1, expand="changelog")
+    jira = JIRA(server=sys.argv[1])
+
+    issues = jira.search_issues(sys.argv[2], maxResults=-1, expand="changelog")
 
     transformedIssues = []
 
@@ -106,4 +110,4 @@ if __name__ == "__main__":
         }
         transformedIssues.append(transformedIssue)
 
-    write_xes('wildfly-feature-requests', '.', transformedIssues)
+    write_xes('output', '.', transformedIssues)
