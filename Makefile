@@ -3,6 +3,6 @@ init:
 build:
 	pipenv install --dev
 lint:
-	pipenv lint
+	pipenv run lint
 test:
-	pipenv test
+	pipenv run test
