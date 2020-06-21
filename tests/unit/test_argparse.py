@@ -16,6 +16,29 @@ def test_args():
     assert 512 == os.system('python jira-pm/__main__.py arg_one arg_two')
 
 
-def test_output():
+def run_main():
+    return os.system(
+        """python jira-pm/__main__.py https://issues.redhat.com 'project=WFLY AND type="Feature Request"' """)
+
+
+def test_without_specified_output():
+    os.system('rm *.xes')
+    run_main()
+    assert os.path.exists('output-process.xes')
+    os.system('rm *.xes')
+
+
+def test_relative_output():
+    os.system('rm *.xes')
     os.system(
-        """python jira-pm/__main__.py --jira-server https://issues.redhat.com --query 'project=WFLY AND type="Feature Request"' wildfly-feature-requests""")
+        """python jira-pm/__main__.py https://issues.redhat.com 'project=WFLY AND type="Feature Request"' wildfly-feature-requests """)
+    assert os.path.exists('wildfly-feature-requests-process.xes')
+    os.system('rm *.xes')
+
+
+def test_absolute_output():
+    os.system('rm *.xes')
+    os.system(
+        """python jira-pm/__main__.py https://issues.redhat.com 'project=WFLY AND type="Feature Request"' /home/mcervenansky/PycharmProjects/PV226-Process-mining-project/wildfly-feature-requests""")
+    assert os.path.exists('/home/mcervenansky/PycharmProjects/PV226-Process-mining-project/wildfly-feature-requests')
+    os.system('rm *.xes')
