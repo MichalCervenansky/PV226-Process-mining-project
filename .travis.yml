@@ -1,10 +1,11 @@
 language: python
 python:
+  - "3.7"
   - "3.8"
 cache: pip
 install:
-  - pip install pipenv
-  - pipenv install
-  - pip install -U pytest
+  - make
 script:
-  - pytest
+  - make build
+  - make lint
+  - make test
