@@ -113,4 +113,7 @@ if __name__ == "__main__":
         }
         transformedIssues.append(transformedIssue)
 
-    write_xes('output', '.', transformedIssues)
+    outputFileName = "output"
+    if sys.argv[3] is not None:
+        outputFileName = sys.argv[3]
+    write_xes(outputFileName, '.', transformedIssues)
