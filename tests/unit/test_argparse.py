@@ -21,7 +21,7 @@ def test_without_specified_output():
 def test_relative_output():
     os.system(
         """python jira-pm/__main__.py --jira-server https://issues.redhat.com --query 'project=WFLY AND type="Feature Request"' --output wildfly-feature-requests""")
-    assert os.path.exists('wildfly-feature-requests-process') == True
+    assert os.path.exists('wildfly-feature-requests') == True
 
 
 def test_absolute_output():
