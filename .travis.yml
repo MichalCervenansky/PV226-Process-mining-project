@@ -7,4 +7,4 @@ install:
   - pipenv install
   - pip install -U pytest
 script:
-  - python pytest
+  - pytest
