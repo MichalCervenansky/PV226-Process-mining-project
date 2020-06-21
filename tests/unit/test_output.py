@@ -38,6 +38,6 @@ def test_output_correct():
 
     assert os.path.exists('output-process.xes') is True
 
-    assert find_in_string('output-process.xes', item1) is True
-    assert find_in_string('output-process.xes', item2) is True
-    assert find_in_string('output-process.xes', item3) is True
+    assert find_in_string('output.xes', item1) is True
+    assert find_in_string('output.xes', item2) is True
+    assert find_in_string('output.xes', item3) is True
