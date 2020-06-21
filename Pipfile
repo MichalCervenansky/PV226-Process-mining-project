@@ -3,14 +3,21 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
-[dev-packages]
-pylint = "*"
-
 [packages]
 jira = "*"
-pm4py = "*"
 xes = {editable = true,git = "https://github.com/spriadka/xes.git",ref = "python3"}
 python-dateutil = "*"
+progress = "*"
 
 [requires]
 python_version = "3.7"
+
+[dev-packages]
+autopep8 = "*"
+pylint = "*"
+pylint-fail-under = "*"
+pytest = "*"
+
+[scripts]
+lint = "pylint-fail-under --fail_under 9.0 jira-pm"
+test = "pytest tests"

@@ -1,2 +1,7 @@
 Pipfile.lock
+build
+dist
+*__pycache__*
+*.egg*
 *.xes
+.vscode
