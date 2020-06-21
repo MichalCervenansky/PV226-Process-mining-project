@@ -10,7 +10,7 @@ python-dateutil = "*"
 progress = "*"
 
 [requires]
-python_version = "3.7"
+python_version = ">=3.7"
 
 [dev-packages]
 autopep8 = "*"
