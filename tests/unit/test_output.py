@@ -28,14 +28,8 @@ def test_output_correct():
       <date key="time:timestamp" value="2013-07-18T01:10:07-04:00"/>
       <string key="concept:name" value="Change Field: Fix Version"/>
     </event>"""
-    item3 = """"<event>
-      <string key="lifecycle:transition" value="complete"/>
-      <string key="org:resource" value="Jeff Mesnil"/>
-      <date key="time:timestamp" value="2014-07-09T08:16:40-04:00"/>
-      <string key="concept:name" value="Change Field: Link"/>
-    </event>"""
+
 
     assert os.path.exists('output.xes') == True
     assert find_in_string('output.xes', item1) == True
     assert find_in_string('output.xes', item2) == True
-    #assert find_in_string('output.xes', item3) == True
