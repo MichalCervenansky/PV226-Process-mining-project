@@ -10,8 +10,7 @@ def find_in_string(filename, string):
 
 def run_main():
     return os.system(
-        """python jira-pm/__main__.py --jira-server https://issues.redhat.com 'project=WFLY AND type="Feature 
-        Request"' """)
+        """python jira-pm/__main__.py --jira-server https://issues.redhat.com --query'project=WFLY AND type="Feature Request"' """)
 
 
 def test_output_correct():
@@ -36,8 +35,7 @@ def test_output_correct():
       <string key="concept:name" value="Change Field: Link"/>
     </event>"""
 
-    assert os.path.exists('output-process.xes') is True
-
-    assert find_in_string('output.xes', item1) is True
-    assert find_in_string('output.xes', item2) is True
-    assert find_in_string('output.xes', item3) is True
+    assert os.path.exists('output-process.xes')
+    assert find_in_string('output.xes', item1)
+    assert find_in_string('output.xes', item2)
+    assert find_in_string('output.xes', item3)
