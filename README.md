@@ -1,4 +1,5 @@
 # PV226-Adapting process mining in JIRA
+[![Build Status](https://travis-ci.org/MichalCervenansky/PV226-Process-mining-project.svg?branch=master)](https://travis-ci.org/MichalCervenansky/PV226-Process-mining-project)
 ### Project summary:
 Goal of this project is to develop script, that enables gathering Jira issues selected by JQL to .xes format. This format can be visualized in process mining software like Disco.
 
