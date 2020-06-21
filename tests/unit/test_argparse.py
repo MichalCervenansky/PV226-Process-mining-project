@@ -10,25 +10,25 @@ def test_args():
 
 def run_main():
     return os.system(
-        """python jira-pm/__main__.py --jira-server https://issues.redhat.com --query 'project=WFLY AND type="Feature Request"' """)
+        """python jira-pm/__main__.py --jira-server https://issues.redhat.com --query 'project=WFLY AND type="Feature Request"'""")
 
 
 def test_without_specified_output():
     run_main()
-    assert os.path.exists('output.xes')
+    assert os.path.exists('output.xes') == True
 
 
 def test_relative_output():
     os.system(
-        """python jira-pm/__main__.py --jira-server https://issues.redhat.com --query 'project=WFLY AND type="Feature Request"' --output wildfly-feature-requests """)
-    assert os.path.exists('wildfly-feature-requests-process')
+        """python jira-pm/__main__.py --jira-server https://issues.redhat.com --query 'project=WFLY AND type="Feature Request"' --output wildfly-feature-requests""")
+    assert os.path.exists('wildfly-feature-requests-process') == True
 
 
 def test_absolute_output():
     tmp = tempfile.mkdtemp()
     filename = tmp + "/absolute"
     os.system(
-        """python jira-pm/__main__.py --jira-server https://issues.redhat.com --query 'project=WFLY AND type="Feature Request"' --output filename""")
-    assert os.path.exists(filename)
+        """python jira-pm/__main__.py --jira-server https://issues.redhat.com --query 'project=WFLY AND type="Feature Request"' --output """ + filename)
+    assert os.path.exists(filename) == True
     os.remove(filename)
     os.removedirs(tmp)
