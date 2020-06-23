@@ -58,6 +58,8 @@ def write_xes(output, directory, _issues):
             ))
             if transition["what"]["field"] == "status":
                 event_value = transition["what"]["toString"]
+            elif transition["what"]["field"] == "comment":
+                event_value = "Comment"
             elif transition["what"]["field"] == "description":
                 event_value = "Change Description"
             else:
@@ -106,6 +108,15 @@ def get_transitions(_issue):
                 }
             }
             transitions.append(transition)
+    for comment in _issue.fields.comment.comments:
+        comment_transition = {
+            'when' : comment.created,
+            'who' : transform_transition_author(comment),
+            'what' : {
+                'field' : 'comment'
+            }
+        }
+        transitions.append(comment_transition)
     return transitions
 
 
@@ -118,10 +129,10 @@ def fetch_issues(jira_client, jql):
         start_index = block_num * block_size
         if block_num == 0:
             _issues = jira_client.search_issues(
-                jql, startAt=start_index, maxResults=block_size, expand="changelog")
+                jql, startAt=start_index, maxResults=block_size, expand="changelog", fields="comment,created,creator")
         else:
             more_issues = jira_client.search_issues(
-                jql, startAt=start_index, maxResults=block_size, expand="changelog")
+                jql, startAt=start_index, maxResults=block_size, expand="changelog", fields="comment,created,creator")
             if len(more_issues) > 0:
                 for _issue in more_issues:
                     _issues.append(_issue)
